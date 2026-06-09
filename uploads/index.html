@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feedback Jobs — Recruitment & Job Placement</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='17' fill='%232d5bc4'/%3E%3Ccircle cx='21' cy='32' r='5' fill='%23fff'/%3E%3Ccircle cx='32' cy='32' r='5' fill='%23e07c3f'/%3E%3Ccircle cx='43' cy='32' r='5' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="favicon.svg">
+<meta name="description" content="Feedback Jobs S.R.L. — recruitment and job placement. Connecting skilled candidates with reliable employers across Europe.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:        oklch(0.985 0.005 240);
+    --surface:   oklch(1 0 0);
+    --ink:       oklch(0.22 0.025 255);
+    --ink-soft:  oklch(0.46 0.02 255);
+    --line:      oklch(0.9 0.012 255);
+    --primary:   oklch(0.46 0.13 252);
+    --primary-d: oklch(0.38 0.13 252);
+    --primary-t: oklch(0.95 0.03 252);
+    --accent:    oklch(0.68 0.16 38);
+    --accent-d:  oklch(0.6 0.16 38);
+    --ink-deep:  oklch(0.26 0.04 258);
+    --shadow-sm: 0 1px 2px oklch(0.4 0.05 255 / .06), 0 4px 14px oklch(0.4 0.05 255 / .06);
+    --shadow-md: 0 8px 30px oklch(0.4 0.05 255 / .1);
+    --radius:    16px;
+    --maxw:      1180px;
+    --font-head: "Sora", system-ui, sans-serif;
+    --font-body: "Manrope", system-ui, sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--font-body);
+    color:var(--ink);
+    background:var(--bg);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    max-width:100%;
+  }
+  h1,h2,h3,h4{font-family:var(--font-head);line-height:1.12;letter-spacing:-0.02em;font-weight:700;color:var(--ink-deep)}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap;max-width:100%;
+    font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--primary);
+  }
+  .eyebrow::before{content:"";width:22px;height:2px;background:var(--accent);border-radius:2px}
+
+  /* ---------- Buttons ---------- */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:9px;
+    font-family:var(--font-head);font-weight:600;font-size:15.5px;
+    padding:14px 24px;border-radius:12px;cursor:pointer;border:1.5px solid transparent;
+    transition:transform .18s ease, box-shadow .2s ease, background .2s ease, color .2s ease;
+    white-space:nowrap;
+  }
+  .btn svg{width:18px;height:18px}
+  .btn-primary{background:var(--primary);color:#fff;box-shadow:var(--shadow-sm)}
+  .btn-primary:hover{background:var(--primary-d);transform:translateY(-2px);box-shadow:var(--shadow-md)}
+  .btn-accent{background:var(--accent);color:oklch(0.25 0.04 38)}
+  .btn-accent:hover{background:var(--accent-d);transform:translateY(-2px);box-shadow:var(--shadow-md)}
+  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+  .btn-ghost:hover{border-color:var(--primary);color:var(--primary);transform:translateY(-2px)}
+
+  /* ---------- Header ---------- */
+  header{
+    position:sticky;top:0;z-index:60;
+    background:oklch(0.985 0.005 240 / .82);
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid transparent;transition:border-color .3s, box-shadow .3s;
+  }
+  header.scrolled{border-color:var(--line);box-shadow:0 4px 20px oklch(0.4 0.05 255 / .05)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:72px;gap:18px}
+  .brand{display:flex;align-items:center;gap:12px;font-family:var(--font-head);font-weight:800;font-size:19px;color:var(--ink-deep);letter-spacing:-.02em}
+  .logo{width:40px;height:40px;border-radius:11px;background:var(--primary);display:grid;place-items:center;flex-shrink:0;box-shadow:var(--shadow-sm)}
+  .logo span{display:flex;gap:3.5px}
+  .logo span i{width:5px;height:5px;border-radius:50%;background:#fff;display:block}
+  .logo span i:nth-child(2){background:var(--accent)}
+  .brand small{display:block;font-family:var(--font-body);font-weight:500;font-size:11px;letter-spacing:.04em;color:var(--ink-soft);margin-top:-2px}
+  .nav-links{display:flex;align-items:center;gap:4px}
+  .nav-links a{font-weight:600;font-size:15px;color:var(--ink-soft);padding:9px 14px;border-radius:9px;transition:color .18s, background .18s}
+  .nav-links a:hover{color:var(--primary);background:var(--primary-t)}
+  .nav-right{display:flex;align-items:center;gap:14px}
+
+  /* language switcher */
+  .lang{display:flex;align-items:center;gap:2px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:3px}
+  .lang button{
+    font-family:var(--font-head);font-weight:600;font-size:12.5px;letter-spacing:.03em;
+    border:none;background:transparent;color:var(--ink-soft);cursor:pointer;
+    padding:6px 9px;border-radius:7px;transition:.16s;text-transform:uppercase;
+  }
+  .lang button:hover{color:var(--ink)}
+  .lang button.active{background:var(--primary);color:#fff}
+
+  .hamburger{display:none;width:44px;height:44px;border:1px solid var(--line);background:var(--surface);border-radius:11px;cursor:pointer;align-items:center;justify-content:center;flex-direction:column;gap:4.5px}
+  .hamburger i{width:19px;height:2px;background:var(--ink);border-radius:2px;transition:.25s}
+  .hamburger.open i:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+  .hamburger.open i:nth-child(2){opacity:0}
+  .hamburger.open i:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+
+  /* mobile menu */
+  .mobile-menu{
+    position:fixed;inset:72px 0 0 0;z-index:55;
+    background:var(--surface);
+    padding:18px 22px calc(24px + env(safe-area-inset-bottom));display:none;flex-direction:column;gap:4px;
+    overflow-y:auto;-webkit-overflow-scrolling:touch;
+  }
+  .mobile-menu.open{display:flex}
+  .mobile-menu a{font-family:var(--font-head);font-weight:600;font-size:17px;padding:14px 8px;border-bottom:1px solid var(--line);color:var(--ink)}
+  .mobile-menu a:last-of-type{border-bottom:none}
+  .mobile-menu .btn{margin-top:auto}
+  body.menu-open{overflow:hidden}
+
+  /* ---------- Hero ---------- */
+  .hero{position:relative;padding:clamp(48px,7vw,90px) 0 clamp(60px,7vw,96px);overflow:hidden}
+  .hero::before{
+    content:"";position:absolute;top:-30%;right:-12%;width:60vw;height:60vw;max-width:760px;max-height:760px;
+    background:radial-gradient(circle at center, var(--primary-t), transparent 68%);
+    z-index:-1;
+  }
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(32px,5vw,72px);align-items:center}
+  .hero h1{font-size:clamp(34px,5.2vw,60px);font-weight:800;margin:18px 0 0}
+  .hero h1 em{font-style:normal;color:var(--primary);position:relative}
+  .hero p.lead{font-size:clamp(17px,1.6vw,20px);color:var(--ink-soft);margin:22px 0 0;max-width:34ch}
+  .hero-cta{display:flex;flex-wrap:wrap;gap:13px;margin-top:32px}
+  .hero-trust{display:flex;flex-wrap:wrap;gap:22px;margin-top:34px;padding-top:26px;border-top:1px solid var(--line)}
+  .hero-trust div{display:flex;align-items:center;gap:9px;font-size:14px;font-weight:600;color:var(--ink-soft)}
+  .hero-trust svg{width:19px;height:19px;color:var(--primary);flex-shrink:0}
+
+  /* hero visual card */
+  .hero-card{
+    position:relative;background:var(--surface);border:1px solid var(--line);border-radius:24px;
+    padding:26px;box-shadow:var(--shadow-md);
+  }
+  .hero-card .badge{position:absolute;top:-16px;right:24px;background:var(--accent);color:oklch(0.25 0.04 38);font-family:var(--font-head);font-weight:700;font-size:13px;padding:8px 15px;border-radius:30px;box-shadow:var(--shadow-sm)}
+  .match-row{display:flex;align-items:center;gap:14px;padding:15px;border-radius:14px;background:var(--bg);border:1px solid var(--line);margin-bottom:12px;transition:transform .2s}
+  .match-row:hover{transform:translateX(4px)}
+  .match-row:last-child{margin-bottom:0}
+  .avatar{width:46px;height:46px;border-radius:12px;flex-shrink:0;display:grid;place-items:center;font-family:var(--font-head);font-weight:700;color:#fff;font-size:16px}
+  .match-info{flex:1;min-width:0}
+  .match-info b{display:block;font-family:var(--font-head);font-size:15px;color:var(--ink-deep)}
+  .match-info span{font-size:13px;color:var(--ink-soft)}
+  .match-pill{font-size:12px;font-weight:700;font-family:var(--font-head);padding:6px 11px;border-radius:30px;background:var(--primary-t);color:var(--primary-d);white-space:nowrap}
+  .match-pill.green{background:oklch(0.94 0.05 150);color:oklch(0.42 0.12 150)}
+
+  /* ---------- Section scaffolding ---------- */
+  section{padding:clamp(56px,7vw,96px) 0}
+  .sec-head{max-width:640px;margin-bottom:clamp(34px,4vw,54px)}
+  .sec-head.center{margin-left:auto;margin-right:auto;text-align:center}
+  .sec-head h2{font-size:clamp(28px,3.6vw,42px);margin:14px 0 0}
+  .sec-head p{font-size:clamp(16px,1.5vw,18px);color:var(--ink-soft);margin-top:16px}
+
+  /* ---------- Services ---------- */
+  .services{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .svc-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  .svc{
+    position:relative;border:1px solid var(--line);border-radius:var(--radius);padding:clamp(26px,3vw,40px);
+    background:var(--bg);overflow:hidden;transition:transform .25s, box-shadow .25s, border-color .25s;
+    display:flex;flex-direction:column;
+  }
+  .svc:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--primary)}
+  .svc-ico{width:56px;height:56px;border-radius:15px;display:grid;place-items:center;margin-bottom:20px}
+  .svc-ico svg{width:28px;height:28px;color:#fff}
+  .svc.cand .svc-ico{background:var(--primary)}
+  .svc.emp .svc-ico{background:var(--ink-deep)}
+  .svc h3{font-size:23px}
+  .svc>p{color:var(--ink-soft);margin:12px 0 22px;font-size:15.5px}
+  .svc ul{list-style:none;display:flex;flex-direction:column;gap:13px;margin-bottom:26px}
+  .svc li{display:flex;gap:12px;align-items:flex-start;font-size:15.5px;font-weight:500}
+  .svc li svg{width:21px;height:21px;color:var(--primary);flex-shrink:0;margin-top:1px}
+  .svc.emp li svg{color:var(--accent-d)}
+  .svc .btn{margin-top:auto;width:100%}
+
+  /* ---------- Process ---------- */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;counter-reset:step}
+  .step{position:relative;padding-top:18px}
+  .step-num{font-family:var(--font-head);font-weight:800;font-size:15px;color:#fff;background:var(--primary);width:38px;height:38px;border-radius:11px;display:grid;place-items:center;margin-bottom:18px}
+  .step:nth-child(2) .step-num{background:oklch(0.5 0.13 252)}
+  .step:nth-child(3) .step-num{background:oklch(0.54 0.13 252)}
+  .step:nth-child(4) .step-num{background:var(--accent);color:oklch(0.25 0.04 38)}
+  .step h3{font-size:19px}
+  .step p{color:var(--ink-soft);font-size:15px;margin-top:9px}
+  .step::after{content:"";position:absolute;top:36px;left:50px;right:-11px;height:2px;background:repeating-linear-gradient(90deg,var(--line) 0 7px,transparent 7px 13px)}
+  .step:last-child::after{display:none}
+
+  /* ---------- Why us ---------- */
+  .why{background:var(--ink-deep);color:oklch(0.96 0.01 255)}
+  .why .eyebrow{color:oklch(0.82 0.08 252)}
+  .why .eyebrow::before{background:var(--accent)}
+  .why h2{color:#fff}
+  .why .sec-head p{color:oklch(0.78 0.02 255)}
+  .why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .feat{background:oklch(0.31 0.04 258);border:1px solid oklch(0.4 0.04 258);border-radius:var(--radius);padding:26px;transition:transform .22s, background .22s}
+  .feat:hover{transform:translateY(-4px);background:oklch(0.34 0.045 258)}
+  .feat-ico{width:46px;height:46px;border-radius:12px;background:oklch(0.4 0.06 258);display:grid;place-items:center;margin-bottom:16px}
+  .feat-ico svg{width:23px;height:23px;color:var(--accent)}
+  .feat h3{color:#fff;font-size:18px}
+  .feat p{color:oklch(0.8 0.02 255);font-size:14.5px;margin-top:8px}
+
+  /* ---------- About / countries ---------- */
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(34px,5vw,68px);align-items:center}
+  .about-text h2{font-size:clamp(27px,3.4vw,40px);margin:14px 0 0}
+  .about-text p{color:var(--ink-soft);margin-top:18px;font-size:16.5px}
+  .reach{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:30px;box-shadow:var(--shadow-sm)}
+  .reach h4{font-size:14px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);font-weight:700;margin-bottom:18px}
+  .flags{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .flag-card{display:flex;align-items:center;gap:13px;padding:14px;border-radius:12px;background:var(--bg);border:1px solid var(--line)}
+  .flag-card .fl{width:34px;height:24px;border-radius:5px;overflow:hidden;flex-shrink:0;box-shadow:0 1px 3px oklch(0 0 0 /.15);display:flex;flex-direction:column}
+  .flag-card b{font-family:var(--font-head);font-size:15px}
+  .fl-ro div,.fl-hu div,.fl-at div{height:100%}
+  .fl-ro{flex-direction:row!important}
+  .fl-ro div:nth-child(1){background:#002B7F;width:33.3%;height:100%}
+  .fl-ro div:nth-child(2){background:#FCD116;width:33.3%;height:100%}
+  .fl-ro div:nth-child(3){background:#CE1126;width:33.3%;height:100%}
+  .fl-hu div:nth-child(1){background:#CD2A3E}
+  .fl-hu div:nth-child(2){background:#fff}
+  .fl-hu div:nth-child(3){background:#436F4D}
+  .fl-at div:nth-child(1){background:#ED2939}
+  .fl-at div:nth-child(2){background:#fff}
+  .fl-at div:nth-child(3){background:#ED2939}
+  .fl-en{flex-direction:row!important;background:#012169;align-items:center;justify-content:center}
+  .fl-en::after{content:"";position:absolute}
+
+  /* ---------- Contact ---------- */
+  .contact{background:var(--surface);border-top:1px solid var(--line)}
+  .contact-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(30px,4vw,56px)}
+  .contact-info h2{font-size:clamp(27px,3.4vw,40px);margin:14px 0 0}
+  .contact-info>p{color:var(--ink-soft);margin-top:16px;font-size:16px;max-width:40ch}
+  .cinfo-list{display:flex;flex-direction:column;gap:16px;margin-top:30px}
+  .cinfo{display:flex;gap:15px;align-items:flex-start}
+  .cinfo .ci-ico{width:46px;height:46px;border-radius:12px;background:var(--primary-t);display:grid;place-items:center;flex-shrink:0}
+  .cinfo .ci-ico svg{width:22px;height:22px;color:var(--primary)}
+  .cinfo .ci-label{font-size:12.5px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;color:var(--ink-soft)}
+  .cinfo .ci-val{font-family:var(--font-head);font-weight:600;font-size:16px;color:var(--ink-deep);margin-top:2px}
+  .cinfo a.ci-val:hover{color:var(--primary)}
+
+  form{background:var(--bg);border:1px solid var(--line);border-radius:20px;padding:clamp(24px,3vw,36px);box-shadow:var(--shadow-sm)}
+  .field{margin-bottom:18px}
+  .field label{display:block;font-family:var(--font-head);font-weight:600;font-size:14px;margin-bottom:8px;color:var(--ink-deep)}
+  .field input,.field textarea,.field select{
+    width:100%;font-family:var(--font-body);font-size:15.5px;color:var(--ink);
+    padding:13px 15px;border:1.5px solid var(--line);border-radius:11px;background:var(--surface);
+    transition:border-color .18s, box-shadow .18s;
+  }
+  .field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-t)}
+  .field textarea{resize:vertical;min-height:110px}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .seg{display:flex;gap:10px}
+  .seg label{flex:1;cursor:pointer;margin:0}
+  .seg input{position:absolute;opacity:0;pointer-events:none}
+  .seg span{display:flex;align-items:center;justify-content:center;gap:8px;padding:13px;border:1.5px solid var(--line);border-radius:11px;font-family:var(--font-head);font-weight:600;font-size:14.5px;color:var(--ink-soft);transition:.18s;text-align:center}
+  .seg input:checked + span{border-color:var(--primary);background:var(--primary-t);color:var(--primary-d)}
+  form .btn{width:100%;margin-top:6px}
+  .form-note{font-size:13px;color:var(--ink-soft);margin-top:14px;text-align:center}
+
+  /* ---------- Footer ---------- */
+  footer{background:var(--bg);border-top:1px solid var(--line);padding:56px 0 30px}
+  .foot-top{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:32px;padding-bottom:34px;border-bottom:1px solid var(--line)}
+  .foot-brand .brand{margin-bottom:14px}
+  .foot-brand p{color:var(--ink-soft);font-size:14.5px;max-width:36ch}
+  .foot-col h4{font-size:13px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-soft);margin-bottom:16px}
+  .foot-col a,.foot-col p{display:block;color:var(--ink);font-size:14.5px;font-weight:500;margin-bottom:11px;transition:color .16s}
+  .foot-col a:hover{color:var(--primary)}
+  .foot-legal{display:flex;flex-wrap:wrap;justify-content:space-between;gap:14px;padding-top:24px;font-size:13px;color:var(--ink-soft)}
+  .foot-legal .reg{display:flex;flex-wrap:wrap;gap:18px}
+  .foot-legal b{color:var(--ink);font-weight:600}
+
+  /* ---------- reveal animation ---------- */
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+
+  /* ---------- Responsive ---------- */
+  @media(max-width:1024px){
+    .nav-links{display:none}
+    .hamburger{display:flex;order:3}
+    .lang{order:2}
+    .nav-right .btn{display:none}
+  }
+  @media(max-width:980px){
+    .hero-grid,.about-grid,.contact-grid{grid-template-columns:1fr}
+    .hero-card{max-width:460px}
+    .steps{grid-template-columns:1fr 1fr;gap:30px 22px}
+    .step::after{display:none}
+    .why-grid{grid-template-columns:1fr 1fr}
+    .foot-top{grid-template-columns:1fr 1fr}
+    .foot-brand{grid-column:1/-1}
+  }
+  @media(max-width:760px){
+    .svc-grid{grid-template-columns:1fr}
+    .why-grid{grid-template-columns:1fr}
+    .row2{grid-template-columns:1fr}
+    .flags{grid-template-columns:1fr}
+  }
+  @media(max-width:480px){
+    .wrap{padding:0 18px}
+    .steps{grid-template-columns:1fr}
+    .foot-top{grid-template-columns:1fr}
+    .hero-trust{gap:14px}
+    .lang button{padding:6px 7px;font-size:11.5px}
+    .brand small{display:none}
+  }
+  @media(max-width:410px){
+    .nav{gap:8px}
+    .brand{font-size:16px;gap:9px}
+    .logo{width:34px;height:34px;border-radius:10px}
+    .nav-right{gap:8px}
+    .lang{padding:2px}
+    .lang button{padding:5px 6px;font-size:10.5px}
+    .hamburger{width:40px;height:40px}
+    .hero-cta .btn{flex:1}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header id="hdr">
+  <div class="wrap nav">
+    <a href="#top" class="brand" aria-label="Feedback Jobs">
+      <span class="logo"><span><i></i><i></i><i></i></span></span>
+      <span>Feedback Jobs<small data-i18n="brand_tag">Recruitment & Placement</small></span>
+    </a>
+    <nav class="nav-links">
+      <a href="#services" data-i18n="nav_services">Services</a>
+      <a href="#process" data-i18n="nav_process">Process</a>
+      <a href="#why" data-i18n="nav_why">Why us</a>
+      <a href="#about" data-i18n="nav_about">About</a>
+      <a href="#contact" data-i18n="nav_contact">Contact</a>
+    </nav>
+    <div class="nav-right">
+      <div class="lang" id="lang" role="group" aria-label="Language">
+        <button data-lang="hu">HU</button>
+        <button data-lang="de">DE</button>
+        <button data-lang="ro">RO</button>
+        <button data-lang="en">EN</button>
+      </div>
+      <a href="#contact" class="btn btn-primary" data-i18n="nav_cta">Get in touch</a>
+      <button class="hamburger" id="burger" aria-label="Menu"><i></i><i></i><i></i></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#services" data-i18n="nav_services">Services</a>
+  <a href="#process" data-i18n="nav_process">Process</a>
+  <a href="#why" data-i18n="nav_why">Why us</a>
+  <a href="#about" data-i18n="nav_about">About</a>
+  <a href="#contact" data-i18n="nav_contact">Contact</a>
+  <a href="#contact" class="btn btn-primary" data-i18n="nav_cta">Get in touch</a>
+</div>
+
+<a id="top"></a>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-text reveal">
+      <span class="eyebrow" data-i18n="hero_eyebrow">Recruitment & Job Placement</span>
+      <h1 data-i18n-html="hero_h1">The right people.<br>The right <em>opportunities.</em></h1>
+      <p class="lead" data-i18n="hero_lead">Feedback Jobs connects skilled candidates with reliable employers across Europe — with personal service and a transparent process.</p>
+      <div class="hero-cta">
+        <a href="#contact" class="btn btn-primary" data-i18n="hero_cta1">I'm looking for work
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a href="#contact" class="btn btn-ghost" data-i18n="hero_cta2">I'm hiring</a>
+      </div>
+      <div class="hero-trust">
+        <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="trust1">Free for candidates</span></div>
+        <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="trust2">4 languages spoken</span></div>
+        <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="trust3">EU-compliant contracts</span></div>
+      </div>
+    </div>
+    <div class="hero-visual reveal">
+      <div class="hero-card">
+        <div class="badge" data-i18n="hero_badge">New match</div>
+        <div class="match-row">
+          <div class="avatar" style="background:oklch(0.5 0.13 252)">AM</div>
+          <div class="match-info"><b data-i18n="m1_name">Welder · 5 yrs</b><span data-i18n="m1_loc">Available now · Mureș</span></div>
+          <div class="match-pill green" data-i18n="m1_pill">98% fit</div>
+        </div>
+        <div class="match-row">
+          <div class="avatar" style="background:var(--accent-d)">KB</div>
+          <div class="match-info"><b data-i18n="m2_name">Care assistant</b><span data-i18n="m2_loc">AT · German B1</span></div>
+          <div class="match-pill" data-i18n="m2_pill">Interview</div>
+        </div>
+        <div class="match-row">
+          <div class="avatar" style="background:var(--ink-deep)">CNC</div>
+          <div class="match-info"><b data-i18n="m3_name">CNC operator</b><span data-i18n="m3_loc">Full-time · relocation</span></div>
+          <div class="match-pill green" data-i18n="m3_pill">Placed</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SERVICES ============ -->
+<section class="services" id="services">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow" data-i18n="svc_eyebrow">What we do</span>
+      <h2 data-i18n="svc_h2">Two sides, one promise</h2>
+      <p data-i18n="svc_sub">Whether you're searching for the next step in your career or for the right person to join your team — we make the connection.</p>
+    </div>
+    <div class="svc-grid">
+      <div class="svc cand reveal">
+        <div class="svc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a7 7 0 0 1 14 0v1"/></svg></div>
+        <h3 data-i18n="cand_h3">For candidates</h3>
+        <p data-i18n="cand_p">We help you find a job that truly fits — completely free of charge. We stay with you from the first conversation to your first day at work.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="cand_l1">Personal job matching to your skills</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="cand_l2">CV review &amp; interview preparation</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="cand_l3">Relocation &amp; paperwork guidance</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="cand_l4">Support after you start the job</span></li>
+        </ul>
+        <a href="#contact" class="btn btn-primary" data-i18n="cand_btn">Find a job</a>
+      </div>
+      <div class="svc emp reveal">
+        <div class="svc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M8 8V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></div>
+        <h3 data-i18n="emp_h3">For employers</h3>
+        <p data-i18n="emp_p">We find reliable, qualified staff for your business — quickly and without the recruiting headache. You focus on the work; we handle the search.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="emp_l1">Targeted sourcing of pre-screened candidates</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="emp_l2">Skills &amp; reference verification</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="emp_l3">Contract &amp; legal documentation support</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="emp_l4">Replacement guarantee on placements</span></li>
+        </ul>
+        <a href="#contact" class="btn btn-accent" data-i18n="emp_btn">Request candidates</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROCESS ============ -->
+<section id="process">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow" data-i18n="proc_eyebrow">How it works</span>
+      <h2 data-i18n="proc_h2">Simple, honest, four steps</h2>
+      <p data-i18n="proc_sub">No jargon, no surprises. Here's exactly what working with us looks like.</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal"><div class="step-num">1</div><h3 data-i18n="s1_h">Get in touch</h3><p data-i18n="s1_p">Tell us what you're looking for — a job or a new team member. A short call is enough to start.</p></div>
+      <div class="step reveal"><div class="step-num">2</div><h3 data-i18n="s2_h">We match</h3><p data-i18n="s2_p">We search our network and shortlist the options that genuinely fit your needs.</p></div>
+      <div class="step reveal"><div class="step-num">3</div><h3 data-i18n="s3_h">Meet &amp; agree</h3><p data-i18n="s3_p">You meet, we arrange interviews and take care of contracts and documents.</p></div>
+      <div class="step reveal"><div class="step-num">4</div><h3 data-i18n="s4_h">Start &amp; support</h3><p data-i18n="s4_p">The job begins — and we stay in touch to make sure it works out for everyone.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHY US ============ -->
+<section class="why" id="why">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow" data-i18n="why_eyebrow">Why Feedback Jobs</span>
+      <h2 data-i18n="why_h2">The name is the method</h2>
+      <p data-i18n="why_sub">We listen, we follow up, we improve. That feedback loop is what makes our placements last.</p>
+    </div>
+    <div class="why-grid">
+      <div class="feat reveal">
+        <div class="feat-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+        <h3 data-i18n="f1_h">A personal approach</h3><p data-i18n="f1_p">You're never just a CV in a pile. We get to know you and stay reachable.</p>
+      </div>
+      <div class="feat reveal">
+        <div class="feat-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></div>
+        <h3 data-i18n="f2_h">Truly multilingual</h3><p data-i18n="f2_p">We work in Hungarian, German, Romanian and English — no detail lost in translation.</p>
+      </div>
+      <div class="feat reveal">
+        <div class="feat-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <h3 data-i18n="f3_h">Transparent &amp; fair</h3><p data-i18n="f3_p">Clear terms and no hidden fees for candidates — ever.</p>
+      </div>
+      <div class="feat reveal">
+        <div class="feat-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h6"/></svg></div>
+        <h3 data-i18n="f4_h">Legally sound</h3><p data-i18n="f4_p">EU-compliant contracts and correct documentation on every placement.</p>
+      </div>
+      <div class="feat reveal">
+        <div class="feat-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></div>
+        <h3 data-i18n="f5_h">Local, with European reach</h3><p data-i18n="f5_p">Rooted in Sovata, Romania — connecting people and jobs across borders.</p>
+      </div>
+      <div class="feat reveal">
+        <div class="feat-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+        <h3 data-i18n="f6_h">We stay after the deal</h3><p data-i18n="f6_p">Our job isn't done at signing. We check in to make sure it really works.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section id="about">
+  <div class="wrap about-grid">
+    <div class="about-text reveal">
+      <span class="eyebrow" data-i18n="ab_eyebrow">About us</span>
+      <h2 data-i18n="ab_h2">A recruitment partner you can actually reach</h2>
+      <p data-i18n="ab_p1">Feedback Jobs S.R.L. is a recruitment and job-placement agency based in Sovata, Romania. We bring together candidates and employers across Romania, Hungary, Austria and beyond — building working relationships that last.</p>
+      <p data-i18n="ab_p2">We're a young, hands-on company that believes good placements come from listening carefully and following up honestly. That's the feedback our name stands for.</p>
+    </div>
+    <div class="reach reveal">
+      <h4 data-i18n="reach_h">Where we work</h4>
+      <div class="flags">
+        <div class="flag-card"><span class="fl fl-ro"><div></div><div></div><div></div></span><b data-i18n="c_ro">Romania</b></div>
+        <div class="flag-card"><span class="fl fl-hu"><div></div><div></div><div></div></span><b data-i18n="c_hu">Hungary</b></div>
+        <div class="flag-card"><span class="fl fl-at"><div></div><div></div><div></div></span><b data-i18n="c_de">Austria</b></div>
+        <div class="flag-card"><span class="fl fl-en" style="position:relative;color:#fff;font-family:var(--font-head);font-weight:700;font-size:11px">EU</span><b data-i18n="c_eu">& wider EU</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="contact" id="contact">
+  <div class="wrap contact-grid">
+    <div class="contact-info reveal">
+      <span class="eyebrow" data-i18n="ct_eyebrow">Get in touch</span>
+      <h2 data-i18n="ct_h2">Let's talk</h2>
+      <p data-i18n="ct_p">Looking for work or looking to hire? Send a message or call us directly — we usually reply within one working day.</p>
+      <div class="cinfo-list">
+        <div class="cinfo">
+          <div class="ci-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></div>
+          <div><div class="ci-label" data-i18n="ct_phone">Phone</div><a class="ci-val" href="tel:+40752607245">+40 752 607 245</a></div>
+        </div>
+        <div class="cinfo">
+          <div class="ci-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 6 10 7L22 6"/></svg></div>
+          <div><div class="ci-label" data-i18n="ct_email">Email</div><a class="ci-val" href="mailto:contact@feedbackjobs.com">contact@feedbackjobs.com</a></div>
+        </div>
+        <div class="cinfo">
+          <div class="ci-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></div>
+          <div><div class="ci-label" data-i18n="ct_addr">Office</div><div class="ci-val">Cart. Bekecs, Bloc F, Ap. 15<br>545500 Sovata, jud. Mureș, RO</div></div>
+        </div>
+      </div>
+    </div>
+    <form id="contactForm" class="reveal" novalidate>
+      <div class="seg" style="margin-bottom:18px">
+        <label><input type="radio" name="role" value="candidate" checked><span data-i18n="ct_role_cand">I'm looking for work</span></label>
+        <label><input type="radio" name="role" value="employer"><span data-i18n="ct_role_emp">I want to hire</span></label>
+      </div>
+      <div class="row2">
+        <div class="field"><label data-i18n="ct_f_name">Name</label><input type="text" name="name" data-i18n-ph="ct_ph_name" placeholder="Your name" required></div>
+        <div class="field"><label data-i18n="ct_f_phone">Phone</label><input type="tel" name="phone" placeholder="+40 ..."></div>
+      </div>
+      <div class="field"><label data-i18n="ct_f_email">Email</label><input type="email" name="email" data-i18n-ph="ct_ph_email" placeholder="you@email.com" required></div>
+      <div class="field"><label data-i18n="ct_f_msg">Message</label><textarea name="message" data-i18n-ph="ct_ph_msg" placeholder="Tell us briefly what you're looking for..."></textarea></div>
+      <button type="submit" class="btn btn-primary" data-i18n="ct_submit">Send message
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg>
+      </button>
+      <p class="form-note" data-i18n="ct_note">Your details are used only to reply to your enquiry.</p>
+    </form>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <a href="#top" class="brand">
+          <span class="logo"><span><i></i><i></i><i></i></span></span>
+          <span>Feedback Jobs</span>
+        </a>
+        <p data-i18n="foot_about">Recruitment and job placement connecting skilled candidates with reliable employers across Europe.</p>
+      </div>
+      <div class="foot-col">
+        <h4 data-i18n="foot_nav">Navigate</h4>
+        <a href="#services" data-i18n="nav_services">Services</a>
+        <a href="#process" data-i18n="nav_process">Process</a>
+        <a href="#why" data-i18n="nav_why">Why us</a>
+        <a href="#about" data-i18n="nav_about">About</a>
+        <a href="#contact" data-i18n="nav_contact">Contact</a>
+      </div>
+      <div class="foot-col">
+        <h4 data-i18n="foot_contact">Contact</h4>
+        <a href="tel:+40752607245">+40 752 607 245</a>
+        <a href="mailto:contact@feedbackjobs.com">contact@feedbackjobs.com</a>
+        <p>Cart. Bekecs, Bloc F, Ap. 15<br>545500 Sovata, jud. Mureș, RO</p>
+      </div>
+    </div>
+    <div class="foot-legal">
+      <div class="reg">
+        <span><b>Feedback Jobs S.R.L.</b></span>
+        <span data-i18n="foot_cui">Tax ID (CUI): <b>53137115</b></span>
+        <span data-i18n="foot_reg">Reg. no.: <b>J2025098494007</b></span>
+      </div>
+      <div><span id="year">2026</span> © Feedback Jobs S.R.L. — <span data-i18n="foot_rights">All rights reserved.</span></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* =================== i18n =================== */
+const I18N = {
+  hu:{
+    brand_tag:"Munkaerő-közvetítés",
+    nav_services:"Szolgáltatások", nav_process:"Folyamat", nav_why:"Miért mi", nav_about:"Rólunk", nav_contact:"Kapcsolat", nav_cta:"Kapcsolatfelvétel",
+    hero_eyebrow:"Munkaerő-közvetítés és állásközvetítés",
+    hero_h1:"A megfelelő ember.<br>A megfelelő <em>lehetőség.</em>",
+    hero_lead:"A Feedback Jobs szakképzett jelölteket köt össze megbízható munkáltatókkal Európa-szerte — személyes ügyintézéssel és átlátható folyamattal.",
+    hero_cta1:"Munkát keresek", hero_cta2:"Munkaerőt keresek",
+    trust1:"Jelölteknek ingyenes", trust2:"4 nyelven beszélünk", trust3:"EU-konform szerződések",
+    hero_badge:"Új találat",
+    m1_name:"Hegesztő · 5 év", m1_loc:"Azonnal elérhető · Maros m.", m1_pill:"98% egyezés",
+    m2_name:"Ápolási asszisztens", m2_loc:"AT · német B1", m2_pill:"Interjú",
+    m3_name:"CNC-gépkezelő", m3_loc:"Teljes állás · kiköltözés", m3_pill:"Elhelyezve",
+    svc_eyebrow:"Amit kínálunk", svc_h2:"Két oldal, egy ígéret",
+    svc_sub:"Akár a karriered következő lépését keresed, akár a megfelelő embert a csapatodba — mi összekötünk benneteket.",
+    cand_h3:"Álláskeresőknek",
+    cand_p:"Segítünk megtalálni a hozzád igazán illő állást — teljesen díjmentesen. Az első beszélgetéstől a munkakezdésig veled vagyunk.",
+    cand_l1:"Személyre szabott állásajánlatok a képességeidhez", cand_l2:"Önéletrajz-átnézés és interjúfelkészítés",
+    cand_l3:"Kiköltözési és ügyintézési segítség", cand_l4:"Támogatás a munkakezdés után is",
+    cand_btn:"Állást keresek",
+    emp_h3:"Munkáltatóknak",
+    emp_p:"Megbízható, képzett munkaerőt találunk a cégednek — gyorsan, a toborzás fejfájása nélkül. Te a munkára koncentrálsz, mi keresünk.",
+    emp_l1:"Előszűrt jelöltek célzott keresése", emp_l2:"Készségek és referenciák ellenőrzése",
+    emp_l3:"Szerződéses és jogi háttértámogatás", emp_l4:"Pótlási garancia közvetítés esetén",
+    emp_btn:"Munkaerőt kérek",
+    proc_eyebrow:"Hogyan működik", proc_h2:"Egyszerű, őszinte, négy lépés",
+    proc_sub:"Nincs szakzsargon, nincs meglepetés. Pontosan így néz ki, amikor velünk dolgozol.",
+    s1_h:"Kapcsolatfelvétel", s1_p:"Mondd el, mit keresel — állást vagy új munkatársat. Egy rövid beszélgetés elég a kezdéshez.",
+    s2_h:"Megkeressük a tökéletes egyezést", s2_p:"Átnézzük a hálózatunkat, és kiválasztjuk az igényeidhez valóban illő lehetőségeket.",
+    s3_h:"Találkozás és megegyezés", s3_p:"Találkoztok, mi megszervezzük az interjúkat, és intézzük a szerződést, papírokat.",
+    s4_h:"Indulás és támogatás", s4_p:"Elindul a munka — mi pedig kapcsolatban maradunk, hogy mindenkinek beváljon.",
+    why_eyebrow:"Miért a Feedback Jobs", why_h2:"A név maga a módszer",
+    why_sub:"Meghallgatunk, visszajelzünk, fejlődünk. Ez a visszacsatolás teszi tartóssá a közvetítéseinket.",
+    f1_h:"Személyes hozzáállás", f1_p:"Nálunk soha nem vagy csak egy önéletrajz a kupacban. Megismerünk és elérhetők maradunk.",
+    f2_h:"Valóban többnyelvű", f2_p:"Magyarul, németül, románul és angolul dolgozunk — semmi nem vész el a fordításban.",
+    f3_h:"Átlátható és tisztességes", f3_p:"Világos feltételek, és jelölteknek soha nincsenek rejtett díjak.",
+    f4_h:"Jogilag rendben", f4_p:"EU-konform szerződések és helyes dokumentáció minden közvetítésnél.",
+    f5_h:"Helyi, európai elérés", f5_p:"Szovátán gyökerezünk — embereket és állásokat kötünk össze határokon át.",
+    f6_h:"A megegyezés után is", f6_p:"A munkánk nem ér véget az aláírással. Visszajelzünk, hogy tényleg működjön.",
+    ab_eyebrow:"Rólunk", ab_h2:"Egy közvetítő partner, akit tényleg elérsz",
+    ab_p1:"A Feedback Jobs S.R.L. egy szovátai (Románia) székhelyű munkaerő- és állásközvetítő cég. Jelölteket és munkáltatókat hozunk össze Romániában, Magyarországon, Ausztriában és azon túl — tartós munkakapcsolatokat építve.",
+    ab_p2:"Fiatal, gyakorlatias cég vagyunk, amely hisz abban, hogy a jó közvetítés a figyelmes meghallgatásból és az őszinte visszajelzésből születik. Ez az a feedback, amit a nevünk jelent.",
+    reach_h:"Ahol dolgozunk", c_ro:"Románia", c_hu:"Magyarország", c_de:"Ausztria", c_eu:"és Európa többi része",
+    ct_eyebrow:"Lépj kapcsolatba", ct_h2:"Beszéljünk",
+    ct_p:"Munkát keresel vagy munkaerőt vennél fel? Írj nekünk, vagy hívj közvetlenül — általában egy munkanapon belül válaszolunk.",
+    ct_phone:"Telefon", ct_email:"E-mail", ct_addr:"Iroda",
+    ct_role_cand:"Munkát keresek", ct_role_emp:"Munkaerőt vennék fel",
+    ct_f_name:"Név", ct_ph_name:"A neved", ct_f_phone:"Telefon", ct_f_email:"E-mail", ct_ph_email:"te@email.hu",
+    ct_f_msg:"Üzenet", ct_ph_msg:"Írd le röviden, mit keresel...",
+    ct_submit:"Üzenet küldése", ct_note:"Adataidat kizárólag a megkeresésed megválaszolására használjuk.",
+    foot_about:"Munkaerő- és állásközvetítés, amely szakképzett jelölteket köt össze megbízható munkáltatókkal Európa-szerte.",
+    foot_nav:"Menü", foot_contact:"Kapcsolat",
+    foot_cui:"Adószám (CUI): <b>53137115</b>", foot_reg:"Cégjegyzékszám: <b>J2025098494007</b>", foot_rights:"Minden jog fenntartva."
+  },
+  de:{
+    brand_tag:"Personalvermittlung",
+    nav_services:"Leistungen", nav_process:"Ablauf", nav_why:"Warum wir", nav_about:"Über uns", nav_contact:"Kontakt", nav_cta:"Kontakt aufnehmen",
+    hero_eyebrow:"Personal- und Stellenvermittlung",
+    hero_h1:"Die richtigen Menschen.<br>Die richtigen <em>Chancen.</em>",
+    hero_lead:"Feedback Jobs verbindet qualifizierte Kandidaten mit zuverlässigen Arbeitgebern in ganz Europa — persönlich betreut und mit transparentem Ablauf.",
+    hero_cta1:"Ich suche Arbeit", hero_cta2:"Ich suche Personal",
+    trust1:"Kostenlos für Bewerber", trust2:"Wir sprechen 4 Sprachen", trust3:"EU-konforme Verträge",
+    hero_badge:"Neuer Treffer",
+    m1_name:"Schweißer · 5 J.", m1_loc:"Sofort verfügbar · Mureș", m1_pill:"98% Passung",
+    m2_name:"Pflegehelfer/in", m2_loc:"AT · Deutsch B1", m2_pill:"Interview",
+    m3_name:"CNC-Bediener", m3_loc:"Vollzeit · Umzug", m3_pill:"Vermittelt",
+    svc_eyebrow:"Was wir tun", svc_h2:"Zwei Seiten, ein Versprechen",
+    svc_sub:"Ob Sie den nächsten Karriereschritt suchen oder die richtige Person fürs Team — wir stellen die Verbindung her.",
+    cand_h3:"Für Bewerber",
+    cand_p:"Wir helfen Ihnen, eine wirklich passende Stelle zu finden — völlig kostenlos. Vom ersten Gespräch bis zum ersten Arbeitstag sind wir an Ihrer Seite.",
+    cand_l1:"Persönliche Vermittlung passend zu Ihren Fähigkeiten", cand_l2:"Lebenslauf-Check & Interview-Vorbereitung",
+    cand_l3:"Hilfe bei Umzug & Behördengängen", cand_l4:"Unterstützung auch nach dem Start",
+    cand_btn:"Stelle finden",
+    emp_h3:"Für Arbeitgeber",
+    emp_p:"Wir finden zuverlässiges, qualifiziertes Personal für Ihr Unternehmen — schnell und ohne Recruiting-Stress. Sie kümmern sich um die Arbeit, wir um die Suche.",
+    emp_l1:"Gezielte Suche vorab geprüfter Kandidaten", emp_l2:"Prüfung von Qualifikationen & Referenzen",
+    emp_l3:"Unterstützung bei Vertrag & Unterlagen", emp_l4:"Nachbesetzungsgarantie bei Vermittlungen",
+    emp_btn:"Kandidaten anfragen",
+    proc_eyebrow:"So läuft es", proc_h2:"Einfach, ehrlich, vier Schritte",
+    proc_sub:"Kein Fachjargon, keine Überraschungen. So sieht die Zusammenarbeit mit uns aus.",
+    s1_h:"Kontakt aufnehmen", s1_p:"Sagen Sie uns, was Sie suchen — eine Stelle oder eine neue Fachkraft. Ein kurzes Gespräch genügt.",
+    s2_h:"Wir finden, was passt", s2_p:"Wir durchsuchen unser Netzwerk und wählen die Optionen aus, die wirklich passen.",
+    s3_h:"Treffen & einigen", s3_p:"Sie lernen sich kennen, wir organisieren Interviews und kümmern uns um Vertrag und Unterlagen.",
+    s4_h:"Start & Betreuung", s4_p:"Die Arbeit beginnt — und wir bleiben in Kontakt, damit es für alle passt.",
+    why_eyebrow:"Warum Feedback Jobs", why_h2:"Der Name ist die Methode",
+    why_sub:"Wir hören zu, wir melden uns zurück, wir verbessern uns. Dieser Feedback-Kreis macht unsere Vermittlungen dauerhaft.",
+    f1_h:"Persönlicher Ansatz", f1_p:"Bei uns sind Sie nie nur ein Lebenslauf im Stapel. Wir lernen Sie kennen und bleiben erreichbar.",
+    f2_h:"Wirklich mehrsprachig", f2_p:"Wir arbeiten auf Ungarisch, Deutsch, Rumänisch und Englisch — nichts geht in der Übersetzung verloren.",
+    f3_h:"Transparent & fair", f3_p:"Klare Bedingungen und niemals versteckte Gebühren für Bewerber.",
+    f4_h:"Rechtlich sauber", f4_p:"EU-konforme Verträge und korrekte Unterlagen bei jeder Vermittlung.",
+    f5_h:"Lokal, mit EU-Reichweite", f5_p:"Verwurzelt in Sovata, Rumänien — wir verbinden Menschen und Jobs über Grenzen hinweg.",
+    f6_h:"Auch nach dem Abschluss da", f6_p:"Unsere Arbeit endet nicht mit der Unterschrift. Wir fragen nach, damit es wirklich funktioniert.",
+    ab_eyebrow:"Über uns", ab_h2:"Ein Vermittlungspartner, den Sie wirklich erreichen",
+    ab_p1:"Feedback Jobs S.R.L. ist eine Personal- und Stellenvermittlung mit Sitz in Sovata, Rumänien. Wir bringen Kandidaten und Arbeitgeber in Rumänien, Ungarn, Österreich und darüber hinaus zusammen — für Arbeitsbeziehungen, die halten.",
+    ab_p2:"Wir sind ein junges, anpackendes Unternehmen und überzeugt: Gute Vermittlung entsteht durch genaues Zuhören und ehrliches Nachfassen. Genau dafür steht das Feedback in unserem Namen.",
+    reach_h:"Wo wir tätig sind", c_ro:"Rumänien", c_hu:"Ungarn", c_de:"Österreich", c_eu:"& darüber hinaus",
+    ct_eyebrow:"Kontakt aufnehmen", ct_h2:"Lassen Sie uns sprechen",
+    ct_p:"Sie suchen Arbeit oder Personal? Schreiben Sie uns oder rufen Sie direkt an — meist antworten wir innerhalb eines Werktags.",
+    ct_phone:"Telefon", ct_email:"E-Mail", ct_addr:"Büro",
+    ct_role_cand:"Ich suche Arbeit", ct_role_emp:"Ich suche Personal",
+    ct_f_name:"Name", ct_ph_name:"Ihr Name", ct_f_phone:"Telefon", ct_f_email:"E-Mail", ct_ph_email:"sie@email.de",
+    ct_f_msg:"Nachricht", ct_ph_msg:"Beschreiben Sie kurz, was Sie suchen...",
+    ct_submit:"Nachricht senden", ct_note:"Ihre Daten werden ausschließlich zur Beantwortung Ihrer Anfrage genutzt.",
+    foot_about:"Personal- und Stellenvermittlung, die qualifizierte Kandidaten mit zuverlässigen Arbeitgebern in ganz Europa verbindet.",
+    foot_nav:"Navigation", foot_contact:"Kontakt",
+    foot_cui:"Steuernr. (CUI): <b>53137115</b>", foot_reg:"Reg.-Nr.: <b>J2025098494007</b>", foot_rights:"Alle Rechte vorbehalten."
+  },
+  ro:{
+    brand_tag:"Plasare forță de muncă",
+    nav_services:"Servicii", nav_process:"Proces", nav_why:"De ce noi", nav_about:"Despre noi", nav_contact:"Contact", nav_cta:"Contactează-ne",
+    hero_eyebrow:"Recrutare și plasare forță de muncă",
+    hero_h1:"Oamenii potriviți.<br>Oportunitățile <em>potrivite.</em>",
+    hero_lead:"Feedback Jobs conectează candidați calificați cu angajatori de încredere din toată Europa — cu servicii personalizate și un proces transparent.",
+    hero_cta1:"Caut de lucru", hero_cta2:"Caut personal",
+    trust1:"Gratuit pentru candidați", trust2:"Vorbim 4 limbi", trust3:"Contracte conforme UE",
+    hero_badge:"Potrivire nouă",
+    m1_name:"Sudor · 5 ani", m1_loc:"Disponibil acum · Mureș", m1_pill:"98% potrivire",
+    m2_name:"Asistent îngrijire", m2_loc:"AT · germană B1", m2_pill:"Interviu",
+    m3_name:"Operator CNC", m3_loc:"Normă întreagă · relocare", m3_pill:"Plasat",
+    svc_eyebrow:"Ce facem", svc_h2:"Două părți, o promisiune",
+    svc_sub:"Fie că îți cauți următorul pas în carieră, fie persoana potrivită pentru echipă — noi facem legătura.",
+    cand_h3:"Pentru candidați",
+    cand_p:"Te ajutăm să găsești jobul care ți se potrivește cu adevărat — complet gratuit. Suntem alături de tine de la prima discuție până în prima zi de muncă.",
+    cand_l1:"Potrivire personalizată cu aptitudinile tale", cand_l2:"Verificare CV și pregătire pentru interviu",
+    cand_l3:"Îndrumare la relocare și acte", cand_l4:"Sprijin și după ce începi munca",
+    cand_btn:"Caută un job",
+    emp_h3:"Pentru angajatori",
+    emp_p:"Găsim personal de încredere și calificat pentru firma ta — rapid și fără bătaia de cap a recrutării. Tu te ocupi de muncă, noi de căutare.",
+    emp_l1:"Căutare țintită de candidați preverificați", emp_l2:"Verificarea competențelor și a referințelor",
+    emp_l3:"Sprijin pentru contracte și documente", emp_l4:"Garanție de înlocuire la plasări",
+    emp_btn:"Solicită candidați",
+    proc_eyebrow:"Cum funcționează", proc_h2:"Simplu, corect, în patru pași",
+    proc_sub:"Fără jargon, fără surprize. Exact așa arată colaborarea cu noi.",
+    s1_h:"Ia legătura", s1_p:"Spune-ne ce cauți — un job sau un nou coleg. O scurtă discuție e suficientă pentru început.",
+    s2_h:"Găsim potrivirea", s2_p:"Căutăm în rețeaua noastră și selectăm opțiunile care chiar se potrivesc nevoilor tale.",
+    s3_h:"Întâlnire și acord", s3_p:"Vă cunoașteți, noi organizăm interviurile și ne ocupăm de contracte și documente.",
+    s4_h:"Start și sprijin", s4_p:"Munca începe — iar noi rămânem în legătură ca totul să meargă bine pentru toți.",
+    why_eyebrow:"De ce Feedback Jobs", why_h2:"Numele este metoda",
+    why_sub:"Ascultăm, revenim, ne îmbunătățim. Această buclă de feedback face ca plasările noastre să dureze.",
+    f1_h:"O abordare personală", f1_p:"La noi nu ești niciodată doar un CV în teanc. Te cunoaștem și rămânem disponibili.",
+    f2_h:"Cu adevărat multilingv", f2_p:"Lucrăm în maghiară, germană, română și engleză — nimic nu se pierde în traducere.",
+    f3_h:"Transparent și corect", f3_p:"Condiții clare și niciodată taxe ascunse pentru candidați.",
+    f4_h:"Conformitate legală", f4_p:"Contracte conforme UE și documentație corectă la fiecare plasare.",
+    f5_h:"Local, cu acoperire europeană", f5_p:"Cu rădăcini în Sovata, România — conectăm oameni și joburi peste granițe.",
+    f6_h:"Rămânem și după acord", f6_p:"Munca noastră nu se termină la semnătură. Revenim ca totul să funcționeze cu adevărat.",
+    ab_eyebrow:"Despre noi", ab_h2:"Un partener de recrutare la care chiar ajungi",
+    ab_p1:"Feedback Jobs S.R.L. este o agenție de recrutare și plasare forță de muncă cu sediul în Sovata, România. Aducem împreună candidați și angajatori din România, Ungaria, Austria și mai departe — construind relații de muncă durabile.",
+    ab_p2:"Suntem o firmă tânără și implicată, convinsă că plasările bune vin din ascultare atentă și revenire onestă. Acesta este feedback-ul pe care îl reprezintă numele nostru.",
+    reach_h:"Unde lucrăm", c_ro:"România", c_hu:"Ungaria", c_de:"Austria", c_eu:"& restul UE",
+    ct_eyebrow:"Ia legătura", ct_h2:"Hai să vorbim",
+    ct_p:"Cauți de lucru sau vrei să angajezi? Trimite-ne un mesaj sau sună-ne direct — de obicei răspundem într-o zi lucrătoare.",
+    ct_phone:"Telefon", ct_email:"E-mail", ct_addr:"Birou",
+    ct_role_cand:"Caut de lucru", ct_role_emp:"Vreau să angajez",
+    ct_f_name:"Nume", ct_ph_name:"Numele tău", ct_f_phone:"Telefon", ct_f_email:"E-mail", ct_ph_email:"tu@email.ro",
+    ct_f_msg:"Mesaj", ct_ph_msg:"Descrie pe scurt ce cauți...",
+    ct_submit:"Trimite mesajul", ct_note:"Datele tale sunt folosite doar pentru a răspunde solicitării tale.",
+    foot_about:"Recrutare și plasare forță de muncă care conectează candidați calificați cu angajatori de încredere din toată Europa.",
+    foot_nav:"Navigare", foot_contact:"Contact",
+    foot_cui:"Cod fiscal (CUI): <b>53137115</b>", foot_reg:"Nr. înreg.: <b>J2025098494007</b>", foot_rights:"Toate drepturile rezervate."
+  },
+  en:{
+    brand_tag:"Recruitment & Placement",
+    nav_services:"Services", nav_process:"Process", nav_why:"Why us", nav_about:"About us", nav_contact:"Contact", nav_cta:"Get in touch",
+    hero_eyebrow:"Recruitment & Job Placement",
+    hero_h1:"The right people.<br>The right <em>opportunities.</em>",
+    hero_lead:"Feedback Jobs connects skilled candidates with reliable employers across Europe — with personal service and a transparent process.",
+    hero_cta1:"I'm looking for work", hero_cta2:"I'm hiring",
+    trust1:"Free for candidates", trust2:"We speak 4 languages", trust3:"EU-compliant contracts",
+    hero_badge:"New match",
+    m1_name:"Welder · 5 yrs", m1_loc:"Available now · Mureș", m1_pill:"98% fit",
+    m2_name:"Care assistant", m2_loc:"AT · German B1", m2_pill:"Interview",
+    m3_name:"CNC operator", m3_loc:"Full-time · relocation", m3_pill:"Placed",
+    svc_eyebrow:"What we do", svc_h2:"Two sides, one promise",
+    svc_sub:"Whether you're searching for the next step in your career or for the right person to join your team — we make the connection.",
+    cand_h3:"For candidates",
+    cand_p:"We help you find a job that truly fits — completely free of charge. We stay with you from the first conversation to your first day at work.",
+    cand_l1:"Personal job matching to your skills", cand_l2:"CV review & interview preparation",
+    cand_l3:"Relocation & paperwork guidance", cand_l4:"Support after you start the job",
+    cand_btn:"Find a job",
+    emp_h3:"For employers",
+    emp_p:"We find reliable, qualified staff for your business — quickly and without the recruiting headache. You focus on the work; we handle the search.",
+    emp_l1:"Targeted sourcing of pre-screened candidates", emp_l2:"Skills & reference verification",
+    emp_l3:"Contract & legal documentation support", emp_l4:"Replacement guarantee on placements",
+    emp_btn:"Request candidates",
+    proc_eyebrow:"How it works", proc_h2:"Simple, honest, four steps",
+    proc_sub:"No jargon, no surprises. Here's exactly what working with us looks like.",
+    s1_h:"Get in touch", s1_p:"Tell us what you're looking for — a job or a new team member. A short call is enough to start.",
+    s2_h:"We find the match", s2_p:"We search our network and shortlist the options that genuinely fit your needs.",
+    s3_h:"Meet & agree", s3_p:"You meet, we arrange interviews and take care of contracts and documents.",
+    s4_h:"Start & support", s4_p:"The job begins — and we stay in touch to make sure it works out for everyone.",
+    why_eyebrow:"Why Feedback Jobs", why_h2:"The name is the method",
+    why_sub:"We listen, we follow up, we improve. That feedback loop is what makes our placements last.",
+    f1_h:"A personal approach", f1_p:"You're never just a CV in a pile. We get to know you and stay reachable.",
+    f2_h:"Truly multilingual", f2_p:"We work in Hungarian, German, Romanian and English — no detail lost in translation.",
+    f3_h:"Transparent & fair", f3_p:"Clear terms and no hidden fees for candidates — ever.",
+    f4_h:"Legally sound", f4_p:"EU-compliant contracts and correct documentation on every placement.",
+    f5_h:"Local, with European reach", f5_p:"Rooted in Sovata, Romania — connecting people and jobs across borders.",
+    f6_h:"We stay with you after the deal", f6_p:"Our job isn't done at signing. We check in to make sure it really works.",
+    ab_eyebrow:"About us", ab_h2:"A recruitment partner you can actually reach",
+    ab_p1:"Feedback Jobs S.R.L. is a recruitment and job-placement agency based in Sovata, Romania. We bring together candidates and employers across Romania, Hungary, Austria and beyond — building working relationships that last.",
+    ab_p2:"We're a young, hands-on company that believes good placements come from listening carefully and following up honestly. That's the feedback our name stands for.",
+    reach_h:"Where we work", c_ro:"Romania", c_hu:"Hungary", c_de:"Austria", c_eu:"& beyond",
+    ct_eyebrow:"Get in touch", ct_h2:"Let's talk",
+    ct_p:"Looking for work or looking to hire? Send a message or call us directly — we usually reply within one working day.",
+    ct_phone:"Phone", ct_email:"Email", ct_addr:"Office",
+    ct_role_cand:"I'm looking for work", ct_role_emp:"I want to hire",
+    ct_f_name:"Name", ct_ph_name:"Your name", ct_f_phone:"Phone", ct_f_email:"Email", ct_ph_email:"you@email.com",
+    ct_f_msg:"Message", ct_ph_msg:"Tell us briefly what you're looking for...",
+    ct_submit:"Send message", ct_note:"Your details are used only to reply to your enquiry.",
+    foot_about:"Recruitment and job placement connecting skilled candidates with reliable employers across Europe.",
+    foot_nav:"Navigate", foot_contact:"Contact",
+    foot_cui:"Tax ID (CUI): <b>53137115</b>", foot_reg:"Reg. no.: <b>J2025098494007</b>", foot_rights:"All rights reserved."
+  }
+};
+
+/* =================== apply language =================== */
+function applyLang(lang){
+  const dict = I18N[lang] || I18N.en;
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const k = el.getAttribute('data-i18n');
+    if(dict[k]!=null) el.textContent = dict[k];
+  });
+  document.querySelectorAll('[data-i18n-html]').forEach(el=>{
+    const k = el.getAttribute('data-i18n-html');
+    if(dict[k]!=null) el.innerHTML = dict[k];
+  });
+  // elements whose value contains <b> etc
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const k = el.getAttribute('data-i18n');
+    if(dict[k]!=null && dict[k].includes('<b>')) el.innerHTML = dict[k];
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{
+    const k = el.getAttribute('data-i18n-ph');
+    if(dict[k]!=null) el.setAttribute('placeholder', dict[k]);
+  });
+  document.querySelectorAll('#lang button').forEach(b=>b.classList.toggle('active', b.dataset.lang===lang));
+  try{ localStorage.setItem('fbj_lang', lang); }catch(e){}
+}
+
+(function initLang(){
+  let saved = null;
+  try{ saved = localStorage.getItem('fbj_lang'); }catch(e){}
+  const nav = (navigator.language||'en').slice(0,2);
+  const lang = saved || (I18N[nav] ? nav : 'hu');
+  applyLang(lang);
+})();
+
+document.getElementById('lang').addEventListener('click', e=>{
+  const b = e.target.closest('button'); if(!b) return;
+  applyLang(b.dataset.lang);
+});
+
+/* =================== header + mobile menu =================== */
+const hdr = document.getElementById('hdr');
+const burger = document.getElementById('burger');
+const mm = document.getElementById('mobileMenu');
+window.addEventListener('scroll', ()=> hdr.classList.toggle('scrolled', window.scrollY>10), {passive:true});
+burger.addEventListener('click', ()=>{
+  const open = !mm.classList.contains('open');
+  burger.classList.toggle('open', open);
+  mm.classList.toggle('open', open);
+  document.body.classList.toggle('menu-open', open);
+});
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click', ()=>{ burger.classList.remove('open'); mm.classList.remove('open'); document.body.classList.remove('menu-open'); }));
+
+/* =================== reveal on scroll =================== */
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+},{threshold:.12, rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach((el,i)=>{ el.style.transitionDelay=(i%4*60)+'ms'; io.observe(el); });
+
+/* =================== contact form (Resend worker) =================== */
+document.getElementById('contactForm').addEventListener('submit', async e=>{
+  e.preventDefault();
+  const f = e.target;
+  const btn = f.querySelector('button[type="submit"]');
+  const originalHTML = btn.innerHTML;
+  btn.disabled = true;
+  btn.style.opacity = '0.7';
+
+  const role = f.role.value;
+  const lang = document.documentElement.lang;
+
+  const ok = (t) => t === 'hu' ? 'Üzenet sikeresen elküldve! Hamarosan felvesszük veled a kapcsolatot.' :
+                    t === 'de' ? 'Nachricht erfolgreich gesendet!' :
+                    t === 'ro' ? 'Mesaj trimis cu succes!' : 'Message sent successfully!';
+  const err = (t) => t === 'hu' ? 'Hiba történt. Kérjük írj nekünk közvetlenül: contact@feedbackjobs.com' :
+                     t === 'de' ? 'Ein Fehler ist aufgetreten. Bitte schreiben Sie an contact@feedbackjobs.com' :
+                     t === 'ro' ? 'A apărut o eroare. Scrieți-ne la contact@feedbackjobs.com' :
+                     'An error occurred. Please contact us at contact@feedbackjobs.com';
+
+  try {
+    const res = await fetch('https://resend.feedbackjobs.com', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        role,
+        name: f.name.value,
+        email: f.email.value,
+        phone: f.phone.value,
+        message: f.message.value
+      })
+    });
+    if (res.ok) {
+      alert(ok(lang));
+      f.reset();
+    } else {
+      alert(err(lang));
+    }
+  } catch {
+    alert(err(lang));
+  } finally {
+    btn.disabled = false;
+    btn.style.opacity = '1';
+    btn.innerHTML = originalHTML;
+  }
+});
+
+document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
