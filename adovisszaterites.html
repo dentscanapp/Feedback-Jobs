@@ -113,7 +113,7 @@
 THESIS: Az osztrák adóbevallás-ügyintézés ajánlatkérője a hero-ban, nem a lap alján; és kimondja, ki mit csinál (mi előkészítünk, te beküldöd) — a „mindent elintézünk" kategória-ígéret helyett.
 OWN-WORLD: A Feedback Jobs meglévő világa: Sora + Manrope, kék elsődleges, narancs kiemelés, hűvös fehér alap, 16–20 px lekerekítés, puha árnyék.
 STORY: A Kintiről érkező, Ausztriában dolgozó magyar látja, hogy magyarul segítenek, az ár előre jön, a beküldés nála marad — és ajánlatot kér.
-FIRST VIEWPORT: Bal: cím, lead, három bizalmi sor. Jobb: ajánlatkérő kártya (név, e-mail, telefon, évek 2021–2025, 2021-en a határidő-címke, küldés). Mobilon a cím alatt „Ajánlatot kérek" gomb a kártyához ugrik.
+FIRST VIEWPORT: Bal: cím, lead, három bizalmi sor. Jobb: ajánlatkérő kártya (név, e-mail, telefon, az elmúlt 5 adóév a mai dátumból, a legrégebbin a határidő-címke, küldés). Mobilon a cím alatt „Ajánlatot kérek" gomb a kártyához ugrik.
 FORM: Hero-ajánlatkérő + munkamegosztás, a saját listám 3. szerkezete; seed 082a386b.
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md
 -->
@@ -189,16 +189,11 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
         </div>
         <div class="field"><label for="f-phone">Telefon / WhatsApp <span class="opt">(nem kötelező)</span></label>
           <input id="f-phone" type="tel" name="phone" autocomplete="tel" placeholder="+36 … vagy +43 …"></div>
-        <!-- ⚠️ A 2021-es határidő 2026. december 31. (EStG § 41 Abs. 2). 2027-ben a sor 2022–2026 lesz. -->
+        <!-- Az évek a mai dátumból jönnek (lent, a szkriptben): mindig az elmúlt 5 adóév, a legrégebbin a
+             határidő-címke (EStG § 41 Abs. 2: az adóév végétől számított 5. év december 31.). Nem kell frissíteni. -->
         <fieldset class="years">
           <legend>Melyik évekről van szó?</legend>
-          <div class="year-row">
-            <label class="year"><input type="checkbox" name="ev" value="2021"><span>2021<small>dec. 31-ig</small></span></label>
-            <label class="year"><input type="checkbox" name="ev" value="2022"><span>2022</span></label>
-            <label class="year"><input type="checkbox" name="ev" value="2023"><span>2023</span></label>
-            <label class="year"><input type="checkbox" name="ev" value="2024"><span>2024</span></label>
-            <label class="year"><input type="checkbox" name="ev" value="2025"><span>2025</span></label>
-          </div>
+          <div class="year-row" id="evek"></div>
           <p class="hint">Nem tudod pontosan? Hagyd üresen, átnézzük együtt.</p>
         </fieldset>
         <div class="field"><label for="f-msg">Mi történt az adott években? <span class="opt">(nem kötelező)</span></label>
@@ -300,7 +295,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
       <details class="faq"><summary><span>Mennyibe kerül?</span><span class="q-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></summary>
         <div class="faq-body">A helyzetedtől függ: hány évről van szó, és milyen levonások jönnek szóba. Az ajánlatkérés után előre megírjuk az árat, és csak akkor dolgozunk, ha elfogadod.</div></details>
       <details class="faq"><summary><span>Hány évre visszamenőleg lehet beadni?</span><span class="q-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></summary>
-        <div class="faq-body">Az adóév végétől számított 5 évig. A 2021-es évet 2026. december 31-ig lehet beadni, a 2025-öset 2030. december 31-ig.</div></details>
+        <div class="faq-body">Az adóév végétől számított 5 évig. Idén december 31-ig tehát még az öt évvel ezelőtti évről<span data-ev-regi></span> is beadhatod, utána arra az évre már nem.</div></details>
       <details class="faq"><summary><span>Miért nekem kell beküldenem?</span><span class="q-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></summary>
         <div class="faq-body">A bevallás a te nevedben megy be, a saját FinanzOnline-hozzáféréseddel vagy papíron. Mi előkészítjük és megmutatjuk, hol küldd be, de az adóhivatal előtt nem képviselünk.</div></details>
       <details class="faq"><summary><span>Mennyi pénz jár vissza?</span><span class="q-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></summary>
@@ -314,11 +309,11 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 </section>
 
 <!-- ============ ZÁRÓ SÁV ============ -->
-<!-- ⚠️ 2027-től ez a sáv elavul: a 2021-es határidő 2026. december 31. -->
+<!-- A cím általános szövege mindig igaz; a szkript a mai dátumból konkrét évre cseréli. Nem kell frissíteni. -->
 <section class="cta-band">
   <div class="wrap">
-    <h2>A 2021-es évet 2026. december 31-ig adhatod be</h2>
-    <p>Utána erre az évre már nem lehet bevallást beadni.</p>
+    <h2 id="hataridoCim">A legrégebbi évet idén december 31-ig adhatod be</h2>
+    <p>Bevallást 5 évre visszamenőleg lehet beadni. Az öt évvel ezelőtti évre az idei év végéig, utána már nem.</p>
     <div class="hero-cta">
       <a href="#ajanlat" class="btn btn-accent">Ajánlatot kérek</a>
       <a href="#" class="btn btn-ghost" data-cb-open style="color:#fff;border-color:oklch(0.5 0.04 258)">Visszahívást kérek</a>
@@ -382,11 +377,31 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
     var f = document.getElementById("ajanlat");
     var ok = document.getElementById("adoOk");
     var err = document.getElementById("adoErr");
+    // Spam-védelem az app.js-ből (honeypot + időzár + link-halmozás). Régi, gyorsítótárazott app.js
+    // mellett nincs meg — akkor az űrlap védelem nélkül, de működik.
+    var S = window.fbjSpam;
+    if(S) S.vedd(f);
+
+    // Az évek és a határidő a mai dátumból: az adóév végétől számított 5. év december 31-ig
+    // (EStG § 41 Abs. 2), tehát idén (Y) a Y-5. évtől a tavalyi évig. Évente magától lép.
+    var Y = new Date().getFullYear();
+    var sor = document.getElementById("evek");
+    for (var ev = Y - 5; ev <= Y - 1; ev++) {
+      sor.insertAdjacentHTML("beforeend",
+        '<label class="year"><input type="checkbox" name="ev" value="' + ev + '"><span>' + ev +
+        (ev === Y - 5 ? '<small>dec. 31-ig</small>' : '') + '</span></label>');
+    }
+    // „2021. évi" alak: nincs -es/-as/-ös toldalék, ami évszámonként változna.
+    document.getElementById("hataridoCim").textContent = "A " + (Y - 5) + ". évi bevallást " + Y + ". december 31-ig adhatod be";
+    Array.prototype.forEach.call(document.querySelectorAll("[data-ev-regi]"), function(n){ n.textContent = " (" + (Y - 5) + ")"; });
+
     f.addEventListener("submit", function(e){
       e.preventDefault();
       err.hidden = true;
       if(!f.checkValidity()){ f.reportValidity(); return; }
+      if(S && S.gyanus(f)){ f.hidden = true; ok.hidden = false; ok.focus(); return; }
       var el = f.elements;
+      var sm = S ? S.mezok(f) : {};
       var evek = Array.prototype.slice.call(f.querySelectorAll('input[name="ev"]:checked')).map(function(i){ return i.value; });
       var btn = f.querySelector('button[type="submit"]');
       btn.disabled = true; btn.setAttribute("aria-busy", "true");
@@ -394,7 +409,8 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
         method: "POST", headers: {"Content-Type": "application/json"},
         body: JSON.stringify({
           role: "ado", name: el["name"].value, email: el["email"].value, phone: el["phone"].value,
-          message: "[ADÓBEVALLÁS AUSZTRIA – AJÁNLATKÉRÉS]\nÉvek: " + (evek.join(", ") || "nem jelölte") + "\n\n" + el["message"].value
+          message: "[ADÓBEVALLÁS AUSZTRIA – AJÁNLATKÉRÉS]\nÉvek: " + (evek.join(", ") || "nem jelölte") + "\n\n" + el["message"].value,
+          website: sm.website, t: sm.t
         })
       }).then(function(res){
         if(!res.ok) throw new Error(res.status);

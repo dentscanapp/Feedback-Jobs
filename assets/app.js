@@ -187,6 +187,7 @@
     document.body.appendChild(overlay);
 
     var form = $("#cbForm", overlay), ok = $("#cbOk", overlay);
+    spamVedd(form);
     var dateInput = form.querySelector('input[name="date"]');
     var today = new Date(); today.setDate(today.getDate());
     dateInput.min = today.toISOString().slice(0,10);
@@ -207,6 +208,7 @@
     form.addEventListener("submit", function(e){
       e.preventDefault();
       if(!form.checkValidity()){ form.reportValidity(); return; }
+      if(spamGyanus(form)){ form.style.display="none"; ok.classList.add("show"); form.reset(); return; }
       var lang = document.documentElement.lang || "hu";
       var slotKey = form.slot.value;
       var slotTxt = (I18N[lang] && I18N[lang]["slot_"+slotKey]) || slotKey;
@@ -214,10 +216,12 @@
       var orig = btn.textContent;
       btn.disabled = true; btn.style.opacity=".7";
       btn.textContent = (I18N[lang] && I18N[lang].cb_sending) || "Sending...";
+      var sm = spamMezok(form);
       var payload = {
         role:"callback", type:"callback",
-        name: form.name.value, phone: form.phone.value, email:"",
-        message: "[CALLBACK] "+form.date.value+" · "+slotTxt+" ("+form.slot.value+") · "+lang.toUpperCase()
+        name: form.elements["name"].value, phone: form.elements["phone"].value, email:"",
+        message: "[CALLBACK] "+form.date.value+" · "+slotTxt+" ("+form.slot.value+") · "+lang.toUpperCase(),
+        website: sm.website, t: sm.t
       };
       fetch("https://resend.feedbackjobs.com", {
         method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(payload)
@@ -242,22 +246,57 @@
   }
 
   /* =================================================================
+     Spam-védelem — minden űrlapra (kapcsolat, visszahívás, adóbevallás)
+     -----------------------------------------------------------------
+     1) Honeypot: láthatatlan „website" mező. Ember nem látja és nem tölti
+        ki; a robot minden mezőt kitölt.
+     2) Időzár: 3 mp-en belül beküldött űrlapot ember nem tud kitölteni.
+     3) Link-halmozás: 2-nél több link az üzenetben tipikus reklám-spam.
+     Gyanús beküldésnél NEM küldünk, de sikert mutatunk — a robot így nem
+     tanulja meg, mi fogta meg. A worker ugyanezt szerver-oldalon is nézi.
+     ================================================================= */
+  var SPAM_MIN_MS = 3000;
+  function spamVedd(form){
+    if(!form || form._fbjStart) return;
+    form._fbjStart = Date.now();
+    // Inline stílus, nem styles.css: a gyorsítótárazott régi CSS mellett se látszódjon.
+    form.appendChild(el(
+      '<div aria-hidden="true" style="position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden">'+
+        '<label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>'));
+  }
+  function spamMezok(form){
+    var hp = form.elements["website"];
+    return { website: hp ? hp.value : "", t: Date.now() - (form._fbjStart || 0) };
+  }
+  function spamGyanus(form){
+    var m = spamMezok(form);
+    var uzenet = form.elements["message"] ? form.elements["message"].value : "";
+    var linkek = (uzenet.match(/https?:\/\/|www\./gi) || []).length;
+    return !!m.website || m.t < SPAM_MIN_MS || linkek > 2;
+  }
+  window.fbjSpam = { vedd: spamVedd, mezok: spamMezok, gyanus: spamGyanus };
+
+  /* =================================================================
      Contact form (only on pages that have it)
      ================================================================= */
   function wireContact(){
     var f = $("#contactForm"); if(!f) return;
+    spamVedd(f);
     f.addEventListener("submit", function(e){
       e.preventDefault();
       if(!f.checkValidity()){ f.reportValidity(); return; }
       var lang = document.documentElement.lang || "hu";
+      if(spamGyanus(f)){ alert(okMsg(lang)); f.reset(); return; }
       var btn = f.querySelector('button[type="submit"]');
       var orig = btn.innerHTML;
       btn.disabled = true; btn.style.opacity=".7";
+      var sm = spamMezok(f);
       fetch("https://resend.feedbackjobs.com", {
         method:"POST", headers:{"Content-Type":"application/json"},
         body: JSON.stringify({
-          role: f.role.value, name: f.name.value, email: f.email.value,
-          phone: f.phone.value, message: f.message.value
+          role: f.role.value, name: f.elements["name"].value, email: f.elements["email"].value,
+          phone: f.elements["phone"].value, message: f.elements["message"].value,
+          website: sm.website, t: sm.t
         })
       }).then(function(res){
         if(res.ok){ alert(okMsg(lang)); f.reset(); } else { alert(errMsg(lang)); }
