@@ -2,8 +2,8 @@
    Feedback Jobs — Osztrák adóbevallás aloldal (adovisszaterites.html)
    AFTER i18n.js and BEFORE app.js. Deep-merges into window.I18N.
    tx_ = tax page
-   ⚠️ A szolgáltatás nyelve MAGYAR (PRODUCT.md): a nem magyar változatok ezt
-   nem hallgatják el („auf Ungarisch" / „în limba maghiară" / „in Hungarian").
+   A szolgáltatás MIND A 4 NYELVEN megy (user, 2026-09-15): minden változat a
+   SAJÁT nyelvét mondja. Kivétel a Kinti-útmutató, az tényleg csak magyar.
    ⚠️ Évszám sehol (user-döntés): a szövegek évszám nélkül is mindig igazak.
    =================================================================== */
 (function(){
@@ -76,7 +76,7 @@
       tx_h1:"Ihr Steuerausgleich in Österreich, für Sie vorbereitet",
       tx_lead:"Wir prüfen Ihre Unterlagen, füllen die Erklärung (Arbeitnehmerveranlagung) aus und zeigen Ihnen, wie Sie sie einreichen. Den Preis nennen wir Ihnen vorab.",
       tx_cta:"Angebot anfragen",
-      tx_trust1:"Persönlich, auf Ungarisch", tx_trust2:"Preis vorab", tx_trust3:"Bis zu 5 Jahre rückwirkend",
+      tx_trust1:"Persönlich, auf Deutsch", tx_trust2:"Preis vorab", tx_trust3:"Bis zu 5 Jahre rückwirkend",
       tx_f_h:"Angebot anfragen",
       tx_f_sub:"Ein paar Angaben genügen. In unserer Antwort nennen wir den Preis und welche Unterlagen nötig sind.",
       tx_f_name:"Name", tx_f_email:"E-Mail",
@@ -93,7 +93,7 @@
       tx_mi1:"Wir prüfen Ihre Lohnzettel Jahr für Jahr",
       tx_mi2:"Wir klären, welche Abzüge in Frage kommen: Pendeln, Familienbonus Plus, Werbungskosten",
       tx_mi3:"Wir füllen die Erklärung aus (L1 und die nötigen Beilagen)",
-      tx_mi4:"Wir erklären Ihnen den Bescheid auf Ungarisch, sobald er da ist",
+      tx_mi4:"Wir erklären Ihnen den Bescheid verständlich, sobald er da ist",
       tx_te_h:"Was Sie tun",
       tx_te1:"Sie schicken uns die angeforderten Unterlagen",
       tx_te2:"Sie reichen die fertige Erklärung über FinanzOnline ein (zum Beispiel mit ID Austria) oder auf Papier beim Finanzamt",
@@ -137,7 +137,7 @@
       tx_h1:"Declarația ta fiscală din Austria, pregătită pentru tine",
       tx_lead:"Verificăm actele tale, completăm declarația (Arbeitnehmerveranlagung) și îți arătăm cum s-o depui. Prețul ți-l comunicăm dinainte.",
       tx_cta:"Cere ofertă",
-      tx_trust1:"Personal, în limba maghiară", tx_trust2:"Prețul îl afli dinainte", tx_trust3:"Până la 5 ani în urmă",
+      tx_trust1:"Personal, în limba română", tx_trust2:"Prețul îl afli dinainte", tx_trust3:"Până la 5 ani în urmă",
       tx_f_h:"Cere o ofertă",
       tx_f_sub:"Câteva date sunt suficiente. În răspuns îți scriem prețul și ce acte sunt necesare.",
       tx_f_name:"Nume", tx_f_email:"E-mail",
@@ -154,7 +154,7 @@
       tx_mi1:"Verificăm fluturașii de salariu (Lohnzettel) pentru fiecare an",
       tx_mi2:"Adunăm deducerile care pot intra în calcul: naveta, bonusul pentru copii, cheltuielile legate de muncă",
       tx_mi3:"Completăm declarația (L1 și anexele necesare)",
-      tx_mi4:"Îți explicăm în limba maghiară decizia de impunere (Bescheid) când sosește",
+      tx_mi4:"Îți explicăm în limba română decizia de impunere (Bescheid) când sosește",
       tx_te_h:"Ce faci tu",
       tx_te1:"Ne trimiți actele pe care ți le cerem",
       tx_te2:"Depui declarația gata completată prin FinanzOnline (de exemplu cu ID Austria) sau pe hârtie la fisc",
@@ -198,7 +198,7 @@
       tx_h1:"Your Austrian tax return, prepared for you",
       tx_lead:"We review your documents, fill in the return (Arbeitnehmerveranlagung) and show you how to submit it. We tell you the price upfront.",
       tx_cta:"Request a quote",
-      tx_trust1:"Personal service in Hungarian", tx_trust2:"Price upfront", tx_trust3:"Up to 5 years back",
+      tx_trust1:"Personal service in English", tx_trust2:"Price upfront", tx_trust3:"Up to 5 years back",
       tx_f_h:"Request a quote",
       tx_f_sub:"A few details are enough. In our reply we tell you the price and which documents are needed.",
       tx_f_name:"Name", tx_f_email:"Email",
@@ -215,7 +215,7 @@
       tx_mi1:"We review your payslips (Lohnzettel) year by year",
       tx_mi2:"We work out which deductions may apply: commuting, the child tax credit, work-related expenses",
       tx_mi3:"We fill in the return (L1 and the required annexes)",
-      tx_mi4:"We explain the tax assessment (Bescheid) to you in Hungarian when it arrives",
+      tx_mi4:"We explain the tax assessment (Bescheid) to you in English when it arrives",
       tx_te_h:"What you do",
       tx_te1:"You send us the documents we ask for",
       tx_te2:"You submit the finished return via FinanzOnline (for example with ID Austria) or on paper to the tax office",
