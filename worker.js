@@ -8,6 +8,9 @@
 //   Settings > Domains & Routes > Custom Domain: resend.feedbackjobs.com
 //
 // ⚠️ Ez a fájl NEM élesedik a git pushsal: a workert a Cloudflare-en kell frissíteni.
+// Hogy melyik változat fut: minden válasz `X-FBJ-Worker` fejlécében ott a WORKER_VERSION.
+
+const WORKER_VERSION = '3';
 
 // Honnan engedjük a böngészős kéréseket (CORS).
 const ALLOWED_ORIGINS = [
@@ -15,10 +18,14 @@ const ALLOWED_ORIGINS = [
   'https://www.feedbackjobs.com',
 ];
 
-// Spam-szűrés — ugyanaz a három szabály, mint az assets/app.js-ben, szerver-oldalon is,
-// mert a robot a böngésző nélkül, közvetlenül ide is küldhet.
+// Spam-szűrés — ugyanaz, mint az assets/app.js-ben, szerver-oldalon is, mert a robot
+// a böngésző nélkül, közvetlenül ide is küldhet.
 const SPAM_MIN_MS = 3000;
+// Ennél több link: a levél MEGY, de a tárgya jelölve lesz. Eldobni nem szabad — egy valódi
+// munkáltató is bemásolhat több hirdetés-linket.
 const MAX_LINKS = 2;
+const MAX_NAME = 200;
+const MAX_MESSAGE = 10000;
 
 const ROLE_LABEL = {
   employer: 'Munkaadó (Employer)',
@@ -31,6 +38,11 @@ const SUBJECT_LABEL = {
   ado: 'adóbevallás-ajánlatkérés',
 };
 
+// `role` a kliensből jön: sima `ROLE_LABEL[role]` a "constructor"-ra is „talál" (örökölt kulcs).
+function lookup(map, key, fallback) {
+  return typeof key === 'string' && Object.hasOwn(map, key) ? map[key] : fallback;
+}
+
 function corsHeaders(origin) {
   const allow = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
   return {
@@ -38,6 +50,7 @@ function corsHeaders(origin) {
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type',
     'Access-Control-Max-Age': '86400',
+    'X-FBJ-Worker': WORKER_VERSION,
   };
 }
 
@@ -76,17 +89,16 @@ export default {
 
     try {
       const body = await request.json();
-      const { name, email, phone, role, message, website, t } = body;
+      const { name, email, phone, role, message, website, t } = body || {};
 
-      // Gyanús beküldés: sikert válaszolunk, de nem küldünk levelet (a robot ne tanuljon belőle).
-      const links = (String(message || '').match(/https?:\/\/|www\./gi) || []).length;
-      const tooFast = typeof t === 'number' && t < SPAM_MIN_MS;
-      if (website || tooFast || links > MAX_LINKS) {
+      // Robot: sikert válaszolunk, de nem küldünk levelet (ne tanuljon belőle).
+      const tooFast = t !== undefined && t !== null && Number(t) < SPAM_MIN_MS;
+      if (website || tooFast) {
         return json({ success: true }, 200, cors);
       }
 
       const validEmail = typeof email === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-      if (!name || String(name).length > 200 || String(message || '').length > 5000 || (email && !validEmail)) {
+      if (!name || (email && !validEmail)) {
         return json({ error: 'invalid' }, 400, cors);
       }
 
@@ -95,14 +107,20 @@ export default {
         return json({ error: 'RESEND_API_KEY nincs beállítva' }, 500, cors);
       }
 
+      // Túl hosszú mezőt levágunk, nem utasítunk el: az érdeklődő levele így sem vész el.
+      const safeName = String(name).slice(0, MAX_NAME);
+      const safeMessage = message ? String(message).slice(0, MAX_MESSAGE) : '';
+      const links = (safeMessage.match(/https?:\/\/|www\./gi) || []).length;
+      const flag = links > MAX_LINKS ? '[GYANÚS – sok link] ' : '';
+
       const htmlContent = `
         <h2>Új kapcsolatfelvételi űrlap kitöltés</h2>
-        <p><strong>Név:</strong> ${esc(name)}</p>
+        <p><strong>Név:</strong> ${esc(safeName)}</p>
         <p><strong>Email:</strong> ${esc(email) || 'Nem lett megadva'}</p>
         <p><strong>Telefon:</strong> ${esc(phone) || 'Nem lett megadva'}</p>
-        <p><strong>Szerepkör:</strong> ${ROLE_LABEL[role] || 'Munkakereső (Candidate)'}</p>
+        <p><strong>Szerepkör:</strong> ${lookup(ROLE_LABEL, role, 'Munkakereső (Candidate)')}</p>
         <p><strong>Üzenet:</strong></p>
-        <p>${message ? esc(message).replace(/\n/g, '<br>') : 'Nem lett megadva'}</p>
+        <p>${safeMessage ? esc(safeMessage).replace(/\n/g, '<br>') : 'Nem lett megadva'}</p>
       `;
 
       const resRequest = await fetch('https://api.resend.com/emails', {
@@ -115,7 +133,7 @@ export default {
           from: 'onboarding@resend.dev',
           to: 'contact@feedbackjobs.com',
           ...(validEmail ? { reply_to: email } : {}),
-          subject: `[Feedback Jobs] Új ${SUBJECT_LABEL[role] || 'munkakereső érdeklődés'}: ${String(name).slice(0, 80)}`,
+          subject: `[Feedback Jobs] ${flag}Új ${lookup(SUBJECT_LABEL, role, 'munkakereső érdeklődés')}: ${safeName.slice(0, 80)}`,
           html: htmlContent,
         }),
       });

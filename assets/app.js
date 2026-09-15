@@ -251,9 +251,11 @@
      1) Honeypot: láthatatlan „website" mező. Ember nem látja és nem tölti
         ki; a robot minden mezőt kitölt.
      2) Időzár: 3 mp-en belül beküldött űrlapot ember nem tud kitölteni.
-     3) Link-halmozás: 2-nél több link az üzenetben tipikus reklám-spam.
-     Gyanús beküldésnél NEM küldünk, de sikert mutatunk — a robot így nem
-     tanulja meg, mi fogta meg. A worker ugyanezt szerver-oldalon is nézi.
+     A kettő közül bármelyiknél NEM küldünk, de sikert mutatunk — a robot így
+     nem tanulja meg, mi fogta meg. A worker ugyanezt szerver-oldalon is nézi.
+     ⚠️ A link-halmozást itt SZÁNDÉKOSAN nem szűrjük: egy valódi munkáltató is
+     bemásolhat több hirdetés-linket, és azt elnémítani adatvesztés lenne. A
+     worker az ilyen levél tárgyát jelöli meg („[GYANÚS – sok link]").
      ================================================================= */
   var SPAM_MIN_MS = 3000;
   function spamVedd(form){
@@ -270,9 +272,7 @@
   }
   function spamGyanus(form){
     var m = spamMezok(form);
-    var uzenet = form.elements["message"] ? form.elements["message"].value : "";
-    var linkek = (uzenet.match(/https?:\/\/|www\./gi) || []).length;
-    return !!m.website || m.t < SPAM_MIN_MS || linkek > 2;
+    return !!m.website || m.t < SPAM_MIN_MS;
   }
   window.fbjSpam = { vedd: spamVedd, mezok: spamMezok, gyanus: spamGyanus };
 
