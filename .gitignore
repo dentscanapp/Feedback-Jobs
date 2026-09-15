@@ -18,3 +18,10 @@ desktop.ini
 
 # Függőségek
 node_modules/
+
+# Szemelyes adatok es belso munkafajlok - a GitHub Pages MINDENT publikal, ami a repoban van
+CV/
+bor*k/
+PRODUCT.md
+DESIGN.md
+.impeccable/
