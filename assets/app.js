@@ -246,7 +246,7 @@
   }
 
   /* =================================================================
-     Spam-védelem — minden űrlapra (kapcsolat, visszahívás, adóbevallás)
+     Spam-védelem — minden űrlapra (kapcsolat, visszahívás)
      -----------------------------------------------------------------
      1) Honeypot: láthatatlan „website" mező. Ember nem látja és nem tölti
         ki; a robot minden mezőt kitölt.

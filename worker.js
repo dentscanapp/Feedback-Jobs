@@ -30,12 +30,10 @@ const MAX_MESSAGE = 10000;
 const ROLE_LABEL = {
   employer: 'Munkaadó (Employer)',
   callback: 'Visszahívás-kérés',
-  ado: 'Adóbevallás Ausztria (ajánlatkérés)',
 };
 const SUBJECT_LABEL = {
   employer: 'munkaadó érdeklődés',
   callback: 'visszahívás-kérés',
-  ado: 'adóbevallás-ajánlatkérés',
 };
 
 // `role` a kliensből jön: sima `ROLE_LABEL[role]` a "constructor"-ra is „talál" (örökölt kulcs).
