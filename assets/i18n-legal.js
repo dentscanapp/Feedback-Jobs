@@ -19,7 +19,7 @@
       pp_s1_b:'<p>A személyes adataid kezeléséért felelős adatkezelő:</p><ul>'+
         '<li><b>Feedback Jobs S.R.L.</b></li>'+
         '<li>Székhely: Cart. Bekecs, Bloc F, Ap. 15, 545500 Szováta (Sovata), Maros megye, Románia</li>'+
-        '<li>Adószám (CUI): 53137115 · Cégjegyzékszám: J2025098494007</li>'+
+        '<li>Adószám (CUI): 53137115 · Uniós adószám: RO55698300 · Cégjegyzékszám: J2025098494007</li>'+
         '<li>E-mail: <a href="mailto:contact@feedbackjobs.com">contact@feedbackjobs.com</a> · Telefon: <a href="tel:+40752607245">+40 752 607 245</a></li></ul>'+
         '<p>Adatvédelmi kérdéseiddel a fenti elérhetőségeken fordulhatsz hozzánk.</p>',
       pp_s2_b:'<p>A szolgáltatásaink igénybevétele során az alábbi adatokat kezeljük:</p><ul>'+
@@ -71,7 +71,7 @@
       pp_s1_b:'<p>Verantwortlich für die Verarbeitung Ihrer Daten ist:</p><ul>'+
         '<li><b>Feedback Jobs S.R.L.</b></li>'+
         '<li>Sitz: Cart. Bekecs, Bloc F, Ap. 15, 545500 Sovata, Kreis Mureș, Rumänien</li>'+
-        '<li>Steuernr. (CUI): 53137115 · Reg.-Nr.: J2025098494007</li>'+
+        '<li>Steuernr. (CUI): 53137115 · USt-IdNr.: RO55698300 · Reg.-Nr.: J2025098494007</li>'+
         '<li>E-Mail: <a href="mailto:contact@feedbackjobs.com">contact@feedbackjobs.com</a> · Telefon: <a href="tel:+40752607245">+40 752 607 245</a></li></ul>'+
         '<p>Bei Datenschutzfragen erreichen Sie uns über die oben genannten Kontaktdaten.</p>',
       pp_s2_b:'<p>Im Rahmen unserer Leistungen verarbeiten wir folgende Daten:</p><ul>'+
@@ -123,7 +123,7 @@
       pp_s1_b:'<p>Operatorul responsabil de prelucrarea datelor tale este:</p><ul>'+
         '<li><b>Feedback Jobs S.R.L.</b></li>'+
         '<li>Sediu: Cart. Bekecs, Bloc F, Ap. 15, 545500 Sovata, jud. Mureș, România</li>'+
-        '<li>Cod fiscal (CUI): 53137115 · Nr. înreg.: J2025098494007</li>'+
+        '<li>Cod fiscal (CUI): 53137115 · Cod de înregistrare în scopuri de TVA: RO55698300 · Nr. înreg.: J2025098494007</li>'+
         '<li>E-mail: <a href="mailto:contact@feedbackjobs.com">contact@feedbackjobs.com</a> · Telefon: <a href="tel:+40752607245">+40 752 607 245</a></li></ul>'+
         '<p>Pentru orice întrebare privind protecția datelor ne poți contacta la datele de mai sus.</p>',
       pp_s2_b:'<p>În cadrul serviciilor noastre prelucrăm următoarele date:</p><ul>'+
@@ -175,7 +175,7 @@
       pp_s1_b:'<p>The controller responsible for processing your personal data is:</p><ul>'+
         '<li><b>Feedback Jobs S.R.L.</b></li>'+
         '<li>Registered office: Cart. Bekecs, Bloc F, Ap. 15, 545500 Sovata, Mureș County, Romania</li>'+
-        '<li>Tax ID (CUI): 53137115 · Reg. no.: J2025098494007</li>'+
+        '<li>Tax ID (CUI): 53137115 · VAT ID: RO55698300 · Reg. no.: J2025098494007</li>'+
         '<li>Email: <a href="mailto:contact@feedbackjobs.com">contact@feedbackjobs.com</a> · Phone: <a href="tel:+40752607245">+40 752 607 245</a></li></ul>'+
         '<p>For any data-protection enquiry, please reach us at the details above.</p>',
       pp_s2_b:'<p>When you use our services we process the following data:</p><ul>'+
